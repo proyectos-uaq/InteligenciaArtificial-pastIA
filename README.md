@@ -86,7 +86,6 @@ python app.py
 - `data_processor.py`: Procesamiento y preprocesamiento de datos históricos
 - `agent.py`: Implementación y entrenamiento del agente PPO
 - `environment.py`: Entorno de RL para el pastillero
-- `main.py`: (Obsoleto para uso directo, solo referencia)
 - `data/`: Directorio para datos de entrada/salida
 - `models/`: Directorio para modelos entrenados
 - `logs/`: Directorio para registros de entrenamiento
