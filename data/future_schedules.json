@@ -1,0 +1,48 @@
+[
+  {
+    "medication_id": "med-001",
+    "future_schedules": [
+      {
+        "schedule_id": "sch-001",
+        "scheduled_time": "16:18:20"
+      },
+      {
+        "schedule_id": "sch-002",
+        "scheduled_time": "00:18:20"
+      },
+      {
+        "schedule_id": "sch-003",
+        "scheduled_time": "08:18:20"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "future_schedules": [
+      {
+        "schedule_id": "sch-004",
+        "scheduled_time": "10:25:00"
+      },
+      {
+        "schedule_id": "sch-005",
+        "scheduled_time": "14:25:00"
+      },
+      {
+        "schedule_id": "sch-006",
+        "scheduled_time": "18:25:00"
+      },
+      {
+        "schedule_id": "sch-007",
+        "scheduled_time": "22:25:00"
+      },
+      {
+        "schedule_id": "sch-008",
+        "scheduled_time": "02:25:00"
+      },
+      {
+        "schedule_id": "sch-009",
+        "scheduled_time": "06:25:00"
+      }
+    ]
+  }
+]

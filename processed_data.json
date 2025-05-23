@@ -1,0 +1,191 @@
+[
+  {
+    "medication_id": "med-001",
+    "schedule_id": "sch-001",
+    "scheduled_time": "08:00:00",
+    "start_date": "2024-03-15",
+    "interval": "8:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-001-1",
+        "time": "2024-03-15T08:15:00.000Z"
+      },
+      {
+        "intake_log_id": "log-001-2",
+        "time": "2024-03-15T16:20:00.000Z"
+      },
+      {
+        "intake_log_id": "log-001-3",
+        "time": "2024-03-16T00:05:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-001",
+    "schedule_id": "sch-002",
+    "scheduled_time": "16:00:00",
+    "start_date": "2024-03-15",
+    "interval": "8:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-002-1",
+        "time": "2024-03-15T16:10:00.000Z"
+      },
+      {
+        "intake_log_id": "log-002-2",
+        "time": "2024-03-16T00:15:00.000Z"
+      },
+      {
+        "intake_log_id": "log-002-3",
+        "time": "2024-03-16T08:05:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-001",
+    "schedule_id": "sch-003",
+    "scheduled_time": "00:00:00",
+    "start_date": "2024-03-15",
+    "interval": "8:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-003-1",
+        "time": "2024-03-16T00:10:00.000Z"
+      },
+      {
+        "intake_log_id": "log-003-2",
+        "time": "2024-03-16T08:20:00.000Z"
+      },
+      {
+        "intake_log_id": "log-003-3",
+        "time": "2024-03-16T16:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "schedule_id": "sch-004",
+    "scheduled_time": "06:00:00",
+    "start_date": "2024-03-15",
+    "interval": "4:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-004-1",
+        "time": "2024-03-15T06:05:00.000Z"
+      },
+      {
+        "intake_log_id": "log-004-2",
+        "time": "2024-03-15T10:10:00.000Z"
+      },
+      {
+        "intake_log_id": "log-004-3",
+        "time": "2024-03-15T14:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "schedule_id": "sch-005",
+    "scheduled_time": "10:00:00",
+    "start_date": "2024-03-15",
+    "interval": "4:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-005-1",
+        "time": "2024-03-15T10:15:00.000Z"
+      },
+      {
+        "intake_log_id": "log-005-2",
+        "time": "2024-03-15T14:20:00.000Z"
+      },
+      {
+        "intake_log_id": "log-005-3",
+        "time": "2024-03-15T18:10:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "schedule_id": "sch-006",
+    "scheduled_time": "14:00:00",
+    "start_date": "2024-03-15",
+    "interval": "4:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-006-1",
+        "time": "2024-03-15T14:25:00.000Z"
+      },
+      {
+        "intake_log_id": "log-006-2",
+        "time": "2024-03-15T18:15:00.000Z"
+      },
+      {
+        "intake_log_id": "log-006-3",
+        "time": "2024-03-15T22:05:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "schedule_id": "sch-007",
+    "scheduled_time": "18:00:00",
+    "start_date": "2024-03-15",
+    "interval": "4:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-007-1",
+        "time": "2024-03-15T18:20:00.000Z"
+      },
+      {
+        "intake_log_id": "log-007-2",
+        "time": "2024-03-15T22:10:00.000Z"
+      },
+      {
+        "intake_log_id": "log-007-3",
+        "time": "2024-03-16T02:15:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "schedule_id": "sch-008",
+    "scheduled_time": "22:00:00",
+    "start_date": "2024-03-15",
+    "interval": "4:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-008-1",
+        "time": "2024-03-15T22:15:00.000Z"
+      },
+      {
+        "intake_log_id": "log-008-2",
+        "time": "2024-03-16T02:20:00.000Z"
+      },
+      {
+        "intake_log_id": "log-008-3",
+        "time": "2024-03-16T06:10:00.000Z"
+      }
+    ]
+  },
+  {
+    "medication_id": "med-002",
+    "schedule_id": "sch-009",
+    "scheduled_time": "02:00:00",
+    "start_date": "2024-03-15",
+    "interval": "4:00:00",
+    "intake_logs": [
+      {
+        "intake_log_id": "log-009-1",
+        "time": "2024-03-16T02:25:00.000Z"
+      },
+      {
+        "intake_log_id": "log-009-2",
+        "time": "2024-03-16T06:15:00.000Z"
+      },
+      {
+        "intake_log_id": "log-009-3",
+        "time": "2024-03-16T10:05:00.000Z"
+      }
+    ]
+  }
+]
