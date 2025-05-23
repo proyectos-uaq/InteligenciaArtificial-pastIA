@@ -1,6 +1,6 @@
 # Pastillero Inteligente con Reinforcement Learning
 
-Sistema inteligente que ajusta automáticamente los horarios de medicación basado en patrones de toma utilizando técnicas de Reinforcement Learning.
+Sistema inteligente que ajusta automáticamente los horarios de medicación basado en patrones de toma utilizando técnicas de Reinforcement Learning y una API REST.
 
 ## Descripción
 
@@ -12,10 +12,11 @@ Este sistema implementa un agente de RL que aprende a ajustar los horarios de me
 - Análisis de datos históricos para predecir comportamientos
 - Recompensas por tomar medicamentos a tiempo
 - Adaptación dinámica a cambios en los patrones de comportamiento
+- API REST para integración con otros sistemas
 
-## Estructura de la Base de Datos
+## Estructura de la Base de Datos (referencial)
 
-El sistema utiliza las siguientes tablas:
+El sistema espera datos estructurados con la siguiente lógica:
 
 - **Users**: Información de usuarios
 - **Prescriptions**: Recetas médicas vinculadas a usuarios
@@ -25,71 +26,81 @@ El sistema utiliza las siguientes tablas:
 
 ## Requisitos
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
-## Uso
+## Uso de la API
 
-### Generar datos de muestra
-
-```bash
-python main.py generate
-```
-
-### Procesar datos para entrenamiento
+1. **Inicia el servidor Flask:**
 
 ```bash
-python main.py process --schedule data/schedules.json --intake data/intakes.json --medication data/medications.json
+python app.py
 ```
 
-### Entrenar modelo
-
-```bash
-python main.py train --config config.json
-```
-
-### Ajustar horarios con modelo entrenado
-
-```bash
-python main.py adjust --model models/pillbox_PPO --schedule data/schedules.json --output data/adjusted_schedules.json
-```
-
-## Configuración
-
-Puedes personalizar el comportamiento del sistema con un archivo de configuración JSON:
+2. **Envía una solicitud POST a `/process` con el siguiente formato JSON:**
 
 ```json
 {
-  "agent_config": {
-    "algorithm": "PPO",
-    "learning_rate": 0.0003,
-    "gamma": 0.99,
-    "n_steps": 2048,
-    "ent_coef": 0.01
-  },
-  "total_timesteps": 100000,
-  "history_file": "data/intake_history.json"
+  "medications": [
+    {
+      "medication_id": "med1",
+      "start_date": "2024-06-01",
+      "interval": "08:00:00",
+      "schedules": [
+        {"schedule_id": "sch1", "scheduled_time": "08:00:00", "intake_logs": [
+          {"time": "2024-06-01T08:10:00"},
+          {"time": "2024-06-02T08:05:00"}
+        ]}
+      ]
+    }
+  ]
 }
 ```
 
-## Cómo funciona
+3. **La respuesta será un JSON con los próximos horarios ajustados:**
 
-1. El sistema recopila datos de las tomas de medicamentos del usuario
-2. Preprocesa estos datos para extraer patrones de comportamiento
-3. Entrena un modelo de RL que aprende a predecir cuándo es más probable que el usuario tome su medicación
-4. Ajusta los horarios programados para maximizar la adherencia al tratamiento
+```json
+[
+  {
+    "medication_id": "med1",
+    "future_schedules": [
+      {"schedule_id": "sch1", "scheduled_time": "08:07:00"},
+      {"schedule_id": "sch1", "scheduled_time": "16:07:00"},
+      ...
+    ]
+  }
+]
+```
 
-## Algoritmo de RL utilizado
+## Flujo del sistema
 
-El sistema usa por defecto el algoritmo **PPO (Proximal Policy Optimization)** de Stable Baselines3, que ofrece un buen equilibrio entre rendimiento y estabilidad. También soporta SAC y A2C como alternativas.
+1. El usuario o sistema externo envía los datos de medicamentos y tomas vía API.
+2. El sistema procesa y preprocesa los datos reales.
+3. Se entrena automáticamente el modelo PPO.
+4. Se calculan y devuelven los horarios futuros ajustados según el comportamiento histórico.
 
 ## Estructura del Proyecto
 
-- `environment.py`: Entorno de simulación para el RL
-- `agent.py`: Implementación del agente de RL
-- `data_processor.py`: Procesamiento de datos históricos
-- `main.py`: Punto de entrada principal
+- `app.py`: API Flask principal, procesamiento de datos y cálculo de horarios futuros
+- `data_processor.py`: Procesamiento y preprocesamiento de datos históricos
+- `agent.py`: Implementación y entrenamiento del agente PPO
+- `environment.py`: Entorno de RL para el pastillero
+- `main.py`: (Obsoleto para uso directo, solo referencia)
 - `data/`: Directorio para datos de entrada/salida
 - `models/`: Directorio para modelos entrenados
-- `logs/`: Directorio para registros de entrenamiento 
+- `logs/`: Directorio para registros de entrenamiento
+
+## Algoritmo de RL utilizado
+
+El sistema usa el algoritmo **PPO (Proximal Policy Optimization)** de Stable Baselines3.
+
+## Notas adicionales
+
+- El sistema está preparado para recibir datos reales y ajustarse automáticamente.
+- Los archivos `processed_data.json` y `future_schedules.json` se generan automáticamente.
+- Para visualizar métricas de entrenamiento, puedes usar TensorBoard:
+
+```bash
+tensorboard --logdir logs/
+``` 

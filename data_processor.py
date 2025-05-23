@@ -12,25 +12,6 @@ class DataProcessor:
         self.data = None
         self.processed_data = None
     
-    def load_from_json(self, schedule_file, intake_file, medication_file=None):
-        """
-        Carga datos desde archivos JSON
-        
-        Args:
-            schedule_file: Ruta al archivo JSON con datos de horarios
-            intake_file: Ruta al archivo JSON con datos de tomas
-            medication_file: Ruta al archivo JSON con datos de medicamentos (opcional)
-        """
-        with open(schedule_file, 'r') as f:
-            self.schedules = json.load(f)
-        
-        with open(intake_file, 'r') as f:
-            self.intakes = json.load(f)
-        
-        if medication_file:
-            with open(medication_file, 'r') as f:
-                self.medications = json.load(f)
-    
     def load_from_db(self, data):
         """Carga datos desde el JSON recibido"""
         try:

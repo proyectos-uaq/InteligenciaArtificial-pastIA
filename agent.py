@@ -1,4 +1,4 @@
-from stable_baselines3 import PPO, SAC, A2C
+from stable_baselines3 import PPO
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.evaluation import evaluate_policy
 import numpy as np
@@ -14,10 +14,9 @@ class SmartPillboxAgent:
     def __init__(self, config=None):
         # Configuración por defecto
         self.config = {
-            'algorithm': 'PPO',       # Algoritmo a utilizar (PPO, SAC, A2C)
             'learning_rate': 0.0003,  # Tasa de aprendizaje
             'gamma': 0.99,            # Factor de descuento
-            'n_steps': 2048,          # Pasos por actualización (para PPO)
+            'n_steps': 2048,          # Pasos por actualización
             'ent_coef': 0.01,         # Coeficiente de entropía
             'log_dir': './logs/',     # Directorio para logs
             'save_dir': './models/'   # Directorio para guardar modelos
@@ -33,38 +32,17 @@ class SmartPillboxAgent:
         # Crear entorno
         self.env = DummyVecEnv([lambda: SmartPillboxEnv()])
         
-        # Inicializar modelo según el algoritmo seleccionado
-        if self.config['algorithm'] == 'PPO':
-            self.model = PPO(
-                "MlpPolicy", 
-                self.env, 
-                learning_rate=self.config['learning_rate'],
-                gamma=self.config['gamma'],
-                n_steps=self.config['n_steps'],
-                ent_coef=self.config['ent_coef'],
-                verbose=1,
-                tensorboard_log=self.config['log_dir']
-            )
-        elif self.config['algorithm'] == 'SAC':
-            self.model = SAC(
-                "MlpPolicy", 
-                self.env, 
-                learning_rate=self.config['learning_rate'],
-                gamma=self.config['gamma'],
-                verbose=1,
-                tensorboard_log=self.config['log_dir']
-            )
-        elif self.config['algorithm'] == 'A2C':
-            self.model = A2C(
-                "MlpPolicy", 
-                self.env, 
-                learning_rate=self.config['learning_rate'],
-                gamma=self.config['gamma'],
-                verbose=1,
-                tensorboard_log=self.config['log_dir']
-            )
-        else:
-            raise ValueError(f"Algoritmo no soportado: {self.config['algorithm']}")
+        # Inicializar modelo PPO
+        self.model = PPO(
+            "MlpPolicy", 
+            self.env, 
+            learning_rate=self.config['learning_rate'],
+            gamma=self.config['gamma'],
+            n_steps=self.config['n_steps'],
+            ent_coef=self.config['ent_coef'],
+            verbose=1,
+            tensorboard_log=self.config['log_dir']
+        )
     
     def train(self, total_timesteps=100000):
         """
@@ -76,7 +54,7 @@ class SmartPillboxAgent:
         self.model.learn(total_timesteps=total_timesteps)
         
         # Guardar el modelo entrenado
-        model_path = os.path.join(self.config['save_dir'], f"pillbox_{self.config['algorithm']}")
+        model_path = os.path.join(self.config['save_dir'], "pillbox_ppo")
         self.model.save(model_path)
         print(f"Modelo guardado en {model_path}")
         
@@ -89,13 +67,7 @@ class SmartPillboxAgent:
         Args:
             model_path: Ruta al modelo guardado
         """
-        if self.config['algorithm'] == 'PPO':
-            self.model = PPO.load(model_path, env=self.env)
-        elif self.config['algorithm'] == 'SAC':
-            self.model = SAC.load(model_path, env=self.env)
-        elif self.config['algorithm'] == 'A2C':
-            self.model = A2C.load(model_path, env=self.env)
-        
+        self.model = PPO.load(model_path, env=self.env)
         print(f"Modelo cargado desde {model_path}")
     
     def evaluate(self, n_eval_episodes=10):
@@ -118,19 +90,6 @@ class SmartPillboxAgent:
         print(f"Recompensa media: {mean_reward:.2f} +/- {std_reward:.2f}")
         return mean_reward, std_reward
     
-    def predict(self, observation):
-        """
-        Predice la acción óptima dada una observación
-        
-        Args:
-            observation: Estado actual del entorno
-            
-        Returns:
-            action: Acción recomendada (ajuste de tiempo)
-        """
-        action, _ = self.model.predict(observation, deterministic=True)
-        return action
-    
     def adjust_schedule(self, scheduled_time, history):
         """
         Ajusta el horario programado basado en el historial de tomas
@@ -141,6 +100,7 @@ class SmartPillboxAgent:
             
         Returns:
             adjusted_time: Tiempo ajustado recomendado
+            time_adjustment: Ajuste aplicado en minutos
         """
         # Preparar observación para el modelo
         # [diferencia_tiempo, histórico_cumplimiento, hora_del_día]
@@ -153,7 +113,7 @@ class SmartPillboxAgent:
         observation = np.array([0, history_factor, current_hour], dtype=np.float32)
         
         # Predecir ajuste
-        action = self.predict(observation)
+        action, _ = self.model.predict(observation, deterministic=True)
         time_adjustment = float(action[0])
         
         # Aplicar ajuste
