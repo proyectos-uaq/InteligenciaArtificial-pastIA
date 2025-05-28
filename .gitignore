@@ -1,0 +1,7 @@
+models/
+logs/
+data/
+venv/
+__pycache__/
+
+processed_data.json
