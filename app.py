@@ -127,6 +127,11 @@ def save_to_json(data, filename):
         print(f"Error al guardar archivo {filename}: {str(e)}")
         return False
 
+@app.route('/health', methods=['GET'])
+def health():
+    """Endpoint de health check para saber si el servidor está disponible"""
+    return jsonify({"status": "ok"}), 200
+
 @app.route('/process', methods=['POST'])
 def process_data():
     """Endpoint para procesar datos, entrenar y ajustar horarios"""
@@ -153,7 +158,7 @@ def process_data():
         # Iniciar entrenamiento
         global agent
         agent = SmartPillboxAgent()
-        model_path = agent.train(total_timesteps=100000)
+        model_path = agent.train(total_timesteps=10000)
         
         # Evaluar modelo
         mean_reward, std_reward = agent.evaluate()
